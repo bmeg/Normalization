@@ -1,9 +1,7 @@
 package bmeg;
 
-import hep.aida.bin.DynamicBin1D;
 import hep.aida.bin.QuantileBin1D;
-import org.apache.commons.math3.distribution.*;
-import org.apache.commons.math3.stat.ranking.*;
+
 
 /* 
 	Reference version uses the COLT QuantileBin1D class.  This class efficiently
