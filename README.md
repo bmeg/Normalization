@@ -21,3 +21,20 @@ The required Apache Math3 library will be downloaded by the pom file dependency.
 from that pom file in any project that will use this code.  
 
 A groovy test script with test input and reference output is included in exponential/testscript/
+
+## quantile
+
+Quantile normalization maps one empirical distribtuion onto another. It is used on batches of samples to make all of the samples have the same distribution.  I can also be used to transform test samples into the distribution of training samples.  Many implementations of this for expression data make the simplifying assumption that all of the samples being normalized have the same number of genes.   Most also assume that all the data is available at the same time.   For signature normalization neither of these assumptions typically hold.   We may train the classifiers on historical data with only 9000 genes, or on recent data with 25,000 genes.  Similarly, we may want to apply the signatures to data with an unknown number of genes.  More importantly, unless we want all of the training data to travel with the models, we will not have all of the training data in hand when we wish to apply normalization to a new test sample.  We will just have some kind of summary description of the original distribution. 
+
+Approaches:
+
+1. We could save the entire training distribution.  This is exceedingly space inefficient, making the entire
+	training dataset travel around with the models. 
+2. We could artificially force samples to have the same number of genes by filling in missing genes with NaN or if the size mismatch goes the other way, subsampling genes and just save one value per gene.  This is very ad hoc.  
+3. We can represent the distribution in a compact but robust way with reasonable error bounds. 
+
+Option 3 is easy to do with 
+
+
+
+
