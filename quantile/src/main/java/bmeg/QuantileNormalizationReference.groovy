@@ -29,7 +29,7 @@ class QuantileNormalizationReference implements Serializable{
 	/***
 	*  Save a compression of the training distribution
 	*/ 
-	void saveDistribution(trainingValues){
+	void compressDistribution(trainingValues){
 		def maxError = 0.001 
 		trainingQuantileBin = new QuantileBin1D(maxError) 
 		trainingValues.each{value->
@@ -70,5 +70,14 @@ class QuantileNormalizationReference implements Serializable{
 		FileOutputStream fout = new FileOutputStream(fileName);
 		ObjectOutputStream oos = new ObjectOutputStream(fout);
 		oos.writeObject(this);
-	}			
+	}	
+	
+	static def read(fileName){
+		FileInputStream fin = new FileInputStream(fileName);
+		ObjectInputStream ois = new ObjectInputStream(fin);
+		QuantileNormalizationReference qn = (QuantileNormalizationReference) ois.readObject();
+		return(qn)
+	}
+	
+			
 }
