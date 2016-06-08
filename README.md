@@ -35,7 +35,7 @@ Approaches:
 
 Option 3 is easy to do with existing libraries.  For example, [The COLT QuantileBin1D](https://dst.lbl.gov/ACSSoftware/colt/api/hep/aida/bin/QuantileBin1D.html) class efficiently stores a compressed version of a distribution guaranteed to meet certain error bounds.   For a system purely implemented in Java I would recommend this approach.   
 
-### QuantileNormalizationReference
+#### QuantileNormalizationReference
 
 I have written a reference version of quantile normalization that uses the QuantileBin1D class.  Using this code has two phases.  First creating a compressed version of the distribution.  This is done like:
 
