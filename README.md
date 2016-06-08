@@ -33,11 +33,12 @@ Approaches:
 2. We could artificially force samples to have the same number of genes by filling in missing genes with NaN or if the size mismatch goes the other way, subsampling genes and just save one value per gene.  This is very ad hoc.  
 3. We can represent the distribution in a compact but robust way with reasonable error bounds. 
 
-Option 3 is easy to do with existing libraries.  For example, [The COLT QuantileBin1D](https://dst.lbl.gov/ACSSoftware/colt/api/hep/aida/bin/QuantileBin1D.html) class efficiently stores a compressed version of a distribution guaranteed to meet certain error bounds.   For a system purely implemented in Java I would recommend this approach.   
+Option 3 is easy to do with existing libraries.  For example, [The COLT QuantileBin1D](https://dst.lbl.gov/ACSSoftware/colt/api/hep/aida/bin/QuantileBin1D.html) class efficiently stores a compressed version of a distribution guaranteed to meet certain error bounds.   For a system purely implemented in Java I would recommend this approach.   For our application, we would like to share models across language barriers.  So we need a sparse representation of the distribution that we can save as a protocolbuffer.  The simplest thing is to save a list of quantiles and exchange that.  Given, say, a 17000 genes x 100 sample training set, there are 1,700,000 values in the training
+distribution.  The key question to resolve is how to shrink these values into a manageable set of no more than, say, 17,000 values. Sampling, averaging, and shrinking (saving every kth value from sorted list) are all options but short of re-implementing the guaranteed bounds shrinking/sampling scheme of QuantileBin1D, it isn't clear which simple method is best.   
 
 #### QuantileNormalizationReference
 
-I have written a reference version of quantile normalization that uses the QuantileBin1D class.  Using this code has two phases.  First creating a compressed version of the distribution.  This is done like:
+Reference version of quantile normalization that uses the QuantileBin1D class.  Using this code has two phases.  First creating a compressed version of the distribution.  This is done like:
 
 ```java
   import bmeg.QuantileNormalizationReference;
@@ -60,5 +61,9 @@ To build the jar file
   mvn package
 ```
   
+#### QuantileNormalization
+
+A reference implementation of QuantileNormalization that saves a shareable list of quantiles.  
+
 
 
