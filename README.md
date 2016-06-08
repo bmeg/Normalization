@@ -33,8 +33,32 @@ Approaches:
 2. We could artificially force samples to have the same number of genes by filling in missing genes with NaN or if the size mismatch goes the other way, subsampling genes and just save one value per gene.  This is very ad hoc.  
 3. We can represent the distribution in a compact but robust way with reasonable error bounds. 
 
-Option 3 is easy to do with 
+Option 3 is easy to do with existing libraries.  For example, [The COLT QuantileBin1D](https://dst.lbl.gov/ACSSoftware/colt/api/hep/aida/bin/QuantileBin1D.html) class efficiently stores a compressed version of a distribution guaranteed to meet certain error bounds.   For a system purely implemented in Java I would recommend this approach.   
 
+### QuantileNormalizationReference
 
+I have written a reference version of quantile normalization that uses the QuantileBin1D class.  Using this code has two phases.  First creating a compressed version of the distribution.  This is done like:
+
+```java
+  import bmeg.QuantileNormalizationReference;
+  QuantileNormalizationReference qn = new QuantileNormalizationReference();
+  qn.saveDistribution(trainingValues);
+  qn.save(fileName); // saves a serialized version of the class
+```
+Then, when applying this trained model to new samples you can read in the saved version of the distribution
+and apply it to new samples like:
+
+```java
+  import bmeg.QuantileNormalizationReference;
+  QuantileNormalizationReference qn = QuantileNormalizationReference.read(fileName);
+  transformedValues = qn.transform(inputValues);
+```
+
+To build the jar file 
+```
+  cd quantile
+  mvn package
+```
+  
 
 
