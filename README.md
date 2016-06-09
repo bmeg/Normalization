@@ -61,9 +61,31 @@ To build the jar file
   mvn package
 ```
   
-#### QuantileNormalization
+#### TrainingSetQuantileNormalization
 
-A reference implementation of QuantileNormalization that saves a shareable list of quantiles.  
+Implementation of training set quantile normalization.  This implementation uses sampling to extract a reasonable resolution approximation out of the full distribution.  
 
+To train the values use it like this:
 
+```java
+  import bmeg.TrainingSetQuantileNormalization;
+  // Resolution of quantile approximation (number of points to save).  
+  int numQuantiles = 20000; 
+  TrainingSetQuantileNormalization tqn = new TrainingSetQuantileNormalization(numQuantiles);
+  qn.compressDistribution(trainingValues);
+  qn.save(fileName); // saves a list of sampled values
+```
 
+To use trained values to transform new samples use it like:
+
+```java
+  import bmeg.TrainingSetQuantileNormalization;
+  TrainingSetQuantileNormalization tqn = TrainingSetQuantileNormalization.read(fileName);
+  transformedValues = qn.transform(inputValues);
+```
+
+To build the jar file 
+```
+  cd quantile
+  mvn package
+```
