@@ -38,7 +38,7 @@ distribution.  The key question to resolve is how to shrink these values into a 
  
 #### TrainingSetQuantileNormalization
 
-Implementation of training set quantile normalization.  This implementation uses sampling to extract a reasonable resolution approximation out of the full distribution.  
+Implementation of training set quantile normalization designed to be simple enough to easily translate into other languages.  This implementation just uses simple sampling to extract a reasonable resolution approximation out of the full distribution. This code can also be used as-is in any JVM based pipeline.   
 
 To train the values use it like this:
 
